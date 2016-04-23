@@ -344,6 +344,14 @@ impl<'a> OutStream<'a> {
 
     }
 
+    /// Sets the desired latency, in seconds.
+    /// **Must** be called before `open`ing the stream.
+    pub fn set_latency(&self, latency: f64) -> SioResult<()> {
+        let dev = self.device();
+        unsafe { (*self.stream).software_latency = latency };
+        Ok(())
+    }
+
     /// Returns the current `format` or a `ffi::enums::SioError::Invalid` if
     /// the format is not set.
     pub fn format(&self) -> SioResult<ffi::enums::SioFormat> {
